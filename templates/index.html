@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Community Todo List</title>
+
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background: #0f1115; /* soft charcoal */
+        color: #e6e6e6; /* off-white text */
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 0 20px;
+      }
+
+      h2 {
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 14px;
+      }
+
+      form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #999;
+      }
+
+      button {
+        padding: 10px 16px;
+        border: none;
+        background: #222;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #000;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .task {
+        flex: 1;
+      }
+
+      .done {
+        text-decoration: line-through;
+        color: #999;
+      }
+
+      .actions a {
+        margin-left: 12px;
+        text-decoration: none;
+        font-size: 13px;
+        color: #555;
+      }
+
+      .actions a:hover {
+        color: #000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Community Todo List</h2>
+      <div class="subtitle">A shared task space</div>
+
+      <form method="POST">
+        <input type="text" name="task" placeholder="Add a new task" required />
+        <button type="submit">Add</button>
+      </form>
+
+      <ul>
+        {% for todo in todos %}
+        <li>
+          <div class="task {{ 'done' if todo.done else '' }}">
+            {{ todo.task }}
+          </div>
+
+          <div class="actions">
+            {% if not todo.done %}
+            <a href="/complete/{{ todo.id }}">Done</a>
+            {% endif %}
+            <a href="/delete/{{ todo.id }}">Delete</a>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
