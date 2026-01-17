@@ -32,16 +32,5 @@ pipeline {
                 '''
             }
         }
-
-        stage('Expose via ngrok') {
-            steps {
-                bat '''
-                echo Starting ngrok tunnel...
-                start /B ngrok http 5001
-                timeout /t 5
-                curl http://127.0.0.1:4040/api/tunnels
-                '''
-            }
-        }
     }
 }
