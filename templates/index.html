@@ -123,7 +123,9 @@
         {% for todo in todos %}
         <li>
           <div class="task {{ 'done' if todo.done else '' }}">
-            {{ todo.task }}
+            <span style="opacity: 0.6; margin-right: 6px"
+              >#{{ todo.index }}</span
+            >{{ todo.task }}
           </div>
 
           <div class="actions">

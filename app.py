@@ -16,14 +16,16 @@ def index():
         task = request.form.get("task")
 
         if task:
+            # ATOMIC counter increment (concurrency-safe)
             task_id = r.incr(TASK_COUNTER)
 
-            # store task data
+            # store task data WITH index
             r.hset(
                 f"todo:{task_id}",
                 mapping={
                     "task": task,
-                    "done": "0"
+                    "done": "0",
+                    "index": task_id
                 }
             )
 
@@ -40,6 +42,7 @@ def index():
         data = r.hgetall(f"todo:{tid}")
         todos.append({
             "id": int(tid),
+            "index": int(data.get("index", tid)),  # fallback safe
             "task": data.get("task"),
             "done": data.get("done") == "1"
         })
